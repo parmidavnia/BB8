@@ -7,22 +7,11 @@
         <option name="settingsModule" value="R2D2/settings.py" />
         <option name="manageScript" value="$MODULE_DIR$/manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
-<<<<<<< HEAD
-        <option name="doNotUseTestRunner" value="false" />
-        <option name="trackFilePattern" value="migrations" />
-=======
->>>>>>> 0cefbfbf6a34f670633a7320b5e7095ca31bc4a0
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
-<<<<<<< HEAD
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/venv" />
-    </content>
-=======
     <content url="file://$MODULE_DIR$" />
->>>>>>> 0cefbfbf6a34f670633a7320b5e7095ca31bc4a0
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
@@ -30,11 +19,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-<<<<<<< HEAD
-        <option value="$MODULE_DIR$/../R2D2\templates" />
-=======
         <option value="$MODULE_DIR$/templates" />
->>>>>>> 0cefbfbf6a34f670633a7320b5e7095ca31bc4a0
       </list>
     </option>
   </component>

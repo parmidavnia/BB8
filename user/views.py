@@ -3,6 +3,7 @@ import json, jwt
 import re
 
 from django.core.validators import validate_email
+
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -10,11 +11,11 @@ from tagger.models import SentenceHistory
 from user.models import User
 
 
-def validateEmail( email ):
+def validateEmail(email):
     from django.core.validators import validate_email
     from django.core.exceptions import ValidationError
     try:
-        validate_email( email )
+        validate_email(email)
         return True
     except ValidationError:
         return False
@@ -43,19 +44,19 @@ def authorization_and_get_user(request, userId):
 
     return None, user
 
+
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
         body = json.loads(request.body)
-
         firstName = body.get('firstName', None)
         lastName = body.get('lastName', None)
         email = body.get('email', None)
         password = body.get('password', None)
         confirmPassword = body.get('confirmPassword', None)
 
-
-        if re.search('[A-Z]', password) != None and re.search('[0-9]', password) != None and re.search('[^A-Za-z0-9]', password) != None:
+        if re.search('[A-Z]', password) != None and re.search('[0-9]', password) != None and re.search('[^A-Za-z0-9]',
+                                                                                                       password) != None:
 
             if password != confirmPassword:
                 return JsonResponse(
@@ -69,13 +70,11 @@ def register(request):
 
         else:
             return JsonResponse({
-                'result' : 'ERR',
-                'error' : {
-                    'key' : 'PASSWORD_SHOULD_CONTAIN_BOTH_NUMBERS_AND_CHARACTERS'
+                'result': 'ERR',
+                'error': {
+                    'key': 'PASSWORD_SHOULD_CONTAIN_BOTH_NUMBERS_AND_CHARACTERS'
                 }
             })
-
-
 
         if validateEmail(email) == False:
 
@@ -88,17 +87,17 @@ def register(request):
         else:
 
             # TODO token must be set after confirmation
-            token = jwt.encode({'firstName': firstName, 'lastName': lastName, 'email': email}, 'SECRET', algorithm='HS256')
+            token = jwt.encode({'firstName': firstName, 'lastName': lastName, 'email': email}, 'SECRET',
+                               algorithm='HS256')
             ##SHA256?
 
-            #import hashlib
-            #hash_object = hashlib.sha256(b'Hello World')
-            #hex_dig = hash_object.hexdigest()
-            #print(hex_dig)
+            # import hashlib
+            # hash_object = hashlib.sha256(b'Hello World')
+            # hex_dig = hash_object.hexdigest()
+            # print(hex_dig)
 
-
-
-            user = User(firstName=firstName, lastName=lastName, password=hashlib.sha256(password.encode()).hexdigest(), email=email, token=token)
+            user = User(firstName=firstName, lastName=lastName, password=hashlib.sha256(password.encode()).hexdigest(),
+                        email=email, token=token)
             user.save()
 
             return JsonResponse(
@@ -117,9 +116,10 @@ def login(request):
         body = json.loads(request.body.decode('utf-8'))
         email = body.get('email', None)
         password = body.get('password', None)
-        #TODO validation
+        # TODO validation
 
         users = User.objects.filter(email=email, password=hashlib.sha256(password.encode()).hexdigest())
+
         if users is None or len(users) == 0:
             return JsonResponse({
                 'result': 'ERR',
@@ -154,8 +154,8 @@ def show_sentence_history(request, userId):
 
 def profile(request, userId):
     if request.method == 'GET':
-        #authorization_error, user = authorization_and_get_user(request, userId)
-        #if authorization_error is not None:
+        # authorization_error, user = authorization_and_get_user(request, userId)
+        # if authorization_error is not None:
         #    return authorization_error
         user = User.objects.filter(id=userId)
 
@@ -170,10 +170,11 @@ def profile(request, userId):
             }
         })
 
+
 @csrf_exempt
 def edit_profile(request, userId):
-    #authorization_error, user = authorization_and_get_user(request, userId)
-    #if authorization_error is not None:
+    # authorization_error, user = authorization_and_get_user(request, userId)
+    # if authorization_error is not None:
     #    return authorization_error
     user = User.objects.filter(id=userId)
 

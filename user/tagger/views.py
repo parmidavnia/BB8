@@ -1,4 +1,3 @@
-import csv
 import json
 
 from django.http.response import Http404, JsonResponse
@@ -31,32 +30,6 @@ def admin_authorization(request):
     return None
 
 
-@csrf_exempt
-def add_sentence_from_file(request):
-    if request.method == 'GET':
-        #authorization_error = admin_authorization(request)
-        #if authorization_error is not None:
-        #    return authorization_error
-
-
-        with open('InputFile.csv') as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter="\n")
-
-            for text in csv_reader:
-
-                print(text[0])
-
-                s = Sentence(text=text[0])
-                s.save()
-
-            return JsonResponse({
-                'result': 'OK',
-                'data': {
-                    'sentence': json.loads(s.to_json())
-                }
-            }, safe=False)
-
-
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -69,9 +42,9 @@ def get_client_ip(request):
 @csrf_exempt
 def add_sentence(request):
     if request.method == 'POST':
-        #authorization_error = admin_authorization(request)
-        #if authorization_error is not None:
-        #    return authorization_error
+        authorization_error = admin_authorization(request)
+        if authorization_error is not None:
+            return authorization_error
 
         body = json.loads(request.body.decode('utf-8'))
         text = body.get('text', None)
@@ -146,9 +119,9 @@ def sentence(request, sentenceId):
 
 def get_all_sentences(request, page, limit):
     if request.method == 'GET':
-     #   authorization_error = admin_authorization(request)
-      #  if authorization_error is not None:
-       #     return authorization_error
+        authorization_error = admin_authorization(request)
+        if authorization_error is not None:
+            return authorization_error
 
         page = int(page)
         limit = int(limit)

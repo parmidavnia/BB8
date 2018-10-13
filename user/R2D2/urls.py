@@ -18,7 +18,6 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/', include('user.urls', namespace='users')),
-    url(r'^sentence/', include('tagger.urls', namespace='user')),
-    url(r'^ticketing/', include('ticketing.urls', namespace='user2'))
+    url(r'^user/', include('user.urls', namespace='user')),
+    url(r'^sentence/', include('tagger.urls', namespace='user'))
 ]
